@@ -99,3 +99,53 @@ dotnet ef migrations script
 ```
 
 
+## Etapa 2 – Implementação do Backend
+
+Backend em ASP.NET Core com APIs RESTful, acessando o SQL Server Express através do
+Entity Framework Core (`ApplicationContext` injetado nos controllers).
+
+### Endpoints CRUD
+
+Cada uma das 5 entidades possui os cinco endpoints abaixo (`{entidade}` =
+`fabricantes`, `categorias`, `clientes`, `veiculos` ou `alugueis`):
+
+| Método | Rota | Descrição | Respostas |
+|---|---|---|---|
+| GET | `/api/{entidade}` | Lista todos os registros | 200 |
+| GET | `/api/{entidade}/{id}` | Busca um registro pelo id | 200, 404 |
+| POST | `/api/{entidade}` | Cria um registro | 201, 400 |
+| PUT | `/api/{entidade}/{id}` | Atualiza um registro | 200, 400, 404 |
+| DELETE | `/api/{entidade}/{id}` | Remove um registro | 204, 400, 404 |
+
+### Validação e tratamento de erros
+
+- **Data Annotations** nas entidades (`[Required]`, `[StringLength]`, `[Range]`,
+  `[EmailAddress]`, `[RegularExpression]` para o CPF). Com `[ApiController]`, dados
+  inválidos retornam automaticamente **400 Bad Request** detalhando cada campo.
+- **Regras de negócio** verificadas nos controllers: nome/CPF/e-mail/placa duplicados,
+  existência das chaves estrangeiras, data de devolução anterior à retirada e
+  quilometragem final menor que a inicial.
+- **Integridade referencial**: exclusão bloqueada (400) quando existem registros filhos.
+- **Exceções**: `DbUpdateException` tratada nas operações de escrita e um
+  `UseExceptionHandler` global que devolve 500 em JSON para erros inesperados.
+
+### Filtros (item 2.5) – 5 rotas com dois tipos de join
+
+| # | Rota | Join |
+|---|---|---|
+| 1 | `GET /api/filtros/veiculos-por-fabricante?fabricante=` | INNER JOIN (Veiculo + Fabricante + Categoria) |
+| 2 | `GET /api/filtros/alugueis-por-periodo?inicio=&fim=` | INNER JOIN (Aluguel + Cliente + Veiculo) |
+| 3 | `GET /api/filtros/fabricantes-com-veiculos?pais=` | LEFT JOIN (Fabricante + Veiculo) |
+| 4 | `GET /api/filtros/clientes-com-alugueis?nome=` | LEFT JOIN (Cliente + Aluguel) |
+| 5 | `GET /api/filtros/veiculos-disponiveis-por-categoria?categoria=&valorMaximoDiaria=` | INNER JOIN (Veiculo + Categoria + Fabricante) |
+
+Os filtros 3 e 4 usam `GroupJoin` com `DefaultIfEmpty()`, o que gera LEFT JOIN no SQL:
+fabricantes sem veículos e clientes sem aluguéis também aparecem no resultado.
+
+### Executando a API
+
+```bash
+dotnet run
+```
+
+A interface do Swagger fica disponível em `https://localhost:<porta>/swagger`.

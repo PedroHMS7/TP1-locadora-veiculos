@@ -1,6 +1,8 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using LocadoraVeiculos.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,26 @@ builder.Services
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Integração do Swagger (item 3.1): documenta e permite testar as APIs
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "API - Locadora de Veículos",
+        Version = "v1",
+        Description = "API REST para gerenciamento de uma locadora de veículos."
+    });
+
+    // Usa os comentários /// <summary> dos controllers como descrição dos endpoints
+    var arquivoXml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var caminhoXml = Path.Combine(AppContext.BaseDirectory, arquivoXml);
+
+    if (File.Exists(caminhoXml))
+    {
+        options.IncludeXmlComments(caminhoXml);
+    }
+});
 
 var app = builder.Build();
 
@@ -40,7 +61,10 @@ app.UseExceptionHandler(errorApp =>
 });
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "API - Locadora de Veículos v1");
+});
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

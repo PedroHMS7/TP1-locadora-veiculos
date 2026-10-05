@@ -149,3 +149,14 @@ dotnet run
 ```
 
 A interface do Swagger fica disponível em `https://localhost:<porta>/swagger`.
+
+## Etapa 3 – Testes e Documentação
+
+- **Swagger (item 3.1)**: integrado ao projeto e disponível em `/swagger` ao executar
+  `dotnet run`. A configuração usa os comentários `/// <summary>` dos controllers como
+  descrição de cada endpoint.
+- **Documentação das APIs (item 3.2)**: [`docs/Documentacao-APIs.md`](docs/Documentacao-APIs.md)
+  — métodos HTTP, parâmetros e códigos de resposta de todos os endpoints.
+- **Relatório de testes (item 3.3)**: [`docs/Relatorio-de-Testes.md`](docs/Relatorio-de-Testes.md)
+  — chamada e retorno de cada método da API, evidenciados por prints de tela
+  (imagens em `docs/imagens/`).

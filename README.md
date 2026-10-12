@@ -160,3 +160,7 @@ A interface do Swagger fica disponível em `https://localhost:<porta>/swagger`.
 - **Relatório de testes (item 3.3)**: [`docs/Relatorio-de-Testes.md`](docs/Relatorio-de-Testes.md)
   — chamada e retorno de cada método da API, evidenciados por prints de tela
   (imagens em `docs/imagens/`).
+
+## Etapa 4 – Vídeo de apresentação
+
+Vídeo demonstrativo do sistema: https://youtu.be/fNpgxGZSSXk

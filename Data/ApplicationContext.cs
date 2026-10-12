@@ -10,7 +10,6 @@ public class ApplicationContext : DbContext
     {
     }
 
-    // Cada DbSet vira uma tabela no SQL Server
     public DbSet<Fabricante> Fabricantes => Set<Fabricante>();
     public DbSet<Categoria> Categorias => Set<Categoria>();
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
@@ -21,7 +20,6 @@ public class ApplicationContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // ---------- Fabricante ----------
         modelBuilder.Entity<Fabricante>(e =>
         {
             e.ToTable("Fabricantes");
@@ -31,7 +29,6 @@ public class ApplicationContext : DbContext
             e.HasIndex(f => f.Nome).IsUnique();
         });
 
-        // ---------- Categoria ----------
         modelBuilder.Entity<Categoria>(e =>
         {
             e.ToTable("Categorias");
@@ -42,7 +39,6 @@ public class ApplicationContext : DbContext
             e.HasIndex(c => c.Nome).IsUnique();
         });
 
-        // ---------- Veiculo ----------
         modelBuilder.Entity<Veiculo>(e =>
         {
             e.ToTable("Veiculos");
@@ -66,7 +62,6 @@ public class ApplicationContext : DbContext
              .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // ---------- Cliente ----------
         modelBuilder.Entity<Cliente>(e =>
         {
             e.ToTable("Clientes");
@@ -79,7 +74,7 @@ public class ApplicationContext : DbContext
             e.HasIndex(c => c.Email).IsUnique();
         });
 
-        // ---------- Aluguel ----------
+
         modelBuilder.Entity<Aluguel>(e =>
         {
             e.HasKey(a => a.Id);
@@ -89,19 +84,16 @@ public class ApplicationContext : DbContext
             e.Property(a => a.ValorDiaria).HasColumnType("decimal(10,2)");
             e.Property(a => a.ValorTotal).HasColumnType("decimal(12,2)");
 
-            // FK Aluguel -> Cliente (N:1)
             e.HasOne(a => a.Cliente)
              .WithMany(c => c.Alugueis)
              .HasForeignKey(a => a.ClienteId)
              .OnDelete(DeleteBehavior.Restrict);
 
-            // FK Aluguel -> Veiculo (N:1)
             e.HasOne(a => a.Veiculo)
              .WithMany(v => v.Alugueis)
              .HasForeignKey(a => a.VeiculoId)
              .OnDelete(DeleteBehavior.Restrict);
 
-            // Nome da tabela + restrições de integridade (CHECK constraints)
             e.ToTable("Alugueis", t =>
             {
                 t.HasCheckConstraint("CK_Aluguel_Periodo", "[DataPrevistaDevolucao] >= [DataRetirada]");

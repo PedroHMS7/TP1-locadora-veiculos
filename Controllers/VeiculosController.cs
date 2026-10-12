@@ -17,7 +17,6 @@ public class VeiculosController : ControllerBase
         _context = context;
     }
 
-    /// <summary>Lista todos os veículos com seu fabricante e categoria.</summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<Veiculo>>> GetAll()
@@ -31,7 +30,6 @@ public class VeiculosController : ControllerBase
         return Ok(veiculos);
     }
 
-    /// <summary>Busca um veículo pelo id.</summary>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +47,6 @@ public class VeiculosController : ControllerBase
         return Ok(veiculo);
     }
 
-    /// <summary>Cadastra um novo veículo.</summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,7 +58,7 @@ public class VeiculosController : ControllerBase
 
         try
         {
-            // As navegações não são gravadas: apenas as chaves estrangeiras
+
             veiculo.Fabricante = null;
             veiculo.Categoria = null;
 
@@ -80,7 +77,6 @@ public class VeiculosController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = veiculo.Id }, veiculo);
     }
 
-    /// <summary>Atualiza um veículo existente.</summary>
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -123,7 +119,6 @@ public class VeiculosController : ControllerBase
         return Ok(existente);
     }
 
-    /// <summary>Remove um veículo.</summary>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

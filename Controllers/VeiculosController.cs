@@ -17,15 +17,45 @@ public class VeiculosController : ControllerBase
         _context = context;
     }
 
+    /// <summary>
+    /// Lista os veículos. Todos os parâmetros são opcionais e, quando informados,
+    /// filtram os registros diretamente no banco de dados.
+    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Veiculo>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Veiculo>>> GetAll(
+        [FromQuery] string? modelo,
+        [FromQuery] string? placa,
+        [FromQuery] int? fabricanteId,
+        [FromQuery] int? categoriaId,
+        [FromQuery] bool? disponivel,
+        [FromQuery] int? anoMinimo)
     {
-        var veiculos = await _context.Veiculos
+        var consulta = _context.Veiculos
             .Include(v => v.Fabricante)
             .Include(v => v.Categoria)
             .AsNoTracking()
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(modelo))
+            consulta = consulta.Where(v => v.Modelo.Contains(modelo));
+
+        if (!string.IsNullOrWhiteSpace(placa))
+            consulta = consulta.Where(v => v.Placa.Contains(placa));
+
+        if (fabricanteId is not null)
+            consulta = consulta.Where(v => v.FabricanteId == fabricanteId);
+
+        if (categoriaId is not null)
+            consulta = consulta.Where(v => v.CategoriaId == categoriaId);
+
+        if (disponivel is not null)
+            consulta = consulta.Where(v => v.Disponivel == disponivel);
+
+        if (anoMinimo is not null)
+            consulta = consulta.Where(v => v.AnoFabricacao >= anoMinimo);
+
+        var veiculos = await consulta.OrderBy(v => v.Modelo).ToListAsync();
 
         return Ok(veiculos);
     }

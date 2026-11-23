@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using LocadoraVeiculos.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +68,20 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseHttpsRedirection();
+
+// Publica o front-end (pasta frontend) na raiz da aplicação, na mesma origem da API.
+var pastaFrontEnd = Path.Combine(app.Environment.ContentRootPath, "frontend");
+
+if (Directory.Exists(pastaFrontEnd))
+{
+    app.UseFileServer(new FileServerOptions
+    {
+        FileProvider = new PhysicalFileProvider(pastaFrontEnd),
+        RequestPath = "",
+        EnableDefaultFiles = true
+    });
+}
+
 app.UseAuthorization();
 app.MapControllers();
 

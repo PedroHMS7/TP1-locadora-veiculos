@@ -17,16 +17,45 @@ public class AlugueisController : ControllerBase
         _context = context;
     }
 
-    /// <summary>Lista todos os aluguéis com cliente e veículo.</summary>
+    /// <summary>
+    /// Lista os aluguéis com cliente e veículo. Todos os parâmetros são opcionais e,
+    /// quando informados, filtram os registros diretamente no banco de dados.
+    /// Em situacao use "aberto" ou "devolvido".
+    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Aluguel>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Aluguel>>> GetAll(
+        [FromQuery] string? cliente,
+        [FromQuery] string? placa,
+        [FromQuery] DateTime? inicio,
+        [FromQuery] DateTime? fim,
+        [FromQuery] string? situacao)
     {
-        var alugueis = await _context.Alugueis
+        var consulta = _context.Alugueis
             .Include(a => a.Cliente)
             .Include(a => a.Veiculo)
             .AsNoTracking()
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(cliente))
+            consulta = consulta.Where(a => a.Cliente!.Nome.Contains(cliente));
+
+        if (!string.IsNullOrWhiteSpace(placa))
+            consulta = consulta.Where(a => a.Veiculo!.Placa.Contains(placa));
+
+        if (inicio is not null)
+            consulta = consulta.Where(a => a.DataRetirada >= inicio);
+
+        if (fim is not null)
+            consulta = consulta.Where(a => a.DataRetirada <= fim);
+
+        if (string.Equals(situacao, "aberto", StringComparison.OrdinalIgnoreCase))
+            consulta = consulta.Where(a => a.DataDevolucao == null);
+
+        if (string.Equals(situacao, "devolvido", StringComparison.OrdinalIgnoreCase))
+            consulta = consulta.Where(a => a.DataDevolucao != null);
+
+        var alugueis = await consulta.OrderByDescending(a => a.DataRetirada).ToListAsync();
 
         return Ok(alugueis);
     }

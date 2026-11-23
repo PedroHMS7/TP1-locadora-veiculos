@@ -17,12 +17,26 @@ public class CategoriasController : ControllerBase
         _context = context;
     }
 
-    /// <summary>Lista todas as categorias.</summary>
+    /// <summary>
+    /// Lista as categorias. Os dois parâmetros são opcionais e, quando informados,
+    /// filtram os registros diretamente no banco de dados.
+    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Categoria>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetAll(
+        [FromQuery] string? nome,
+        [FromQuery] decimal? valorMaximo)
     {
-        var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
+        var consulta = _context.Categorias.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(nome))
+            consulta = consulta.Where(c => c.Nome.Contains(nome));
+
+        if (valorMaximo is not null)
+            consulta = consulta.Where(c => c.ValorDiariaBase <= valorMaximo);
+
+        var categorias = await consulta.OrderBy(c => c.Nome).ToListAsync();
+
         return Ok(categorias);
     }
 

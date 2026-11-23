@@ -17,12 +17,26 @@ public class FabricantesController : ControllerBase
         _context = context;
     }
 
-    /// <summary>Lista todos os fabricantes.</summary>
+    /// <summary>
+    /// Lista os fabricantes. Os dois parâmetros são opcionais e, quando informados,
+    /// filtram os registros diretamente no banco de dados.
+    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Fabricante>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Fabricante>>> GetAll(
+        [FromQuery] string? nome,
+        [FromQuery] string? pais)
     {
-        var fabricantes = await _context.Fabricantes.AsNoTracking().ToListAsync();
+        var consulta = _context.Fabricantes.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(nome))
+            consulta = consulta.Where(f => f.Nome.Contains(nome));
+
+        if (!string.IsNullOrWhiteSpace(pais))
+            consulta = consulta.Where(f => f.PaisOrigem != null && f.PaisOrigem.Contains(pais));
+
+        var fabricantes = await consulta.OrderBy(f => f.Nome).ToListAsync();
+
         return Ok(fabricantes);
     }
 

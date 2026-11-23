@@ -17,12 +17,30 @@ public class ClientesController : ControllerBase
         _context = context;
     }
 
-    /// <summary>Lista todos os clientes.</summary>
+    /// <summary>
+    /// Lista os clientes. Todos os parâmetros são opcionais e, quando informados,
+    /// filtram os registros diretamente no banco de dados.
+    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Cliente>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Cliente>>> GetAll(
+        [FromQuery] string? nome,
+        [FromQuery] string? cpf,
+        [FromQuery] string? email)
     {
-        var clientes = await _context.Clientes.AsNoTracking().ToListAsync();
+        var consulta = _context.Clientes.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(nome))
+            consulta = consulta.Where(c => c.Nome.Contains(nome));
+
+        if (!string.IsNullOrWhiteSpace(cpf))
+            consulta = consulta.Where(c => c.Cpf.Contains(cpf));
+
+        if (!string.IsNullOrWhiteSpace(email))
+            consulta = consulta.Where(c => c.Email.Contains(email));
+
+        var clientes = await consulta.OrderBy(c => c.Nome).ToListAsync();
+
         return Ok(clientes);
     }
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Aluguéis — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item sel" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Aluguéis</h1>
+          <div class="resumo" id="resumo-alugueis">Carregando...</div>
+        </div>
+        <button type="button" class="bt cheio" id="bt-novo">+ Novo aluguel</button>
+      </header>
+      <div class="conteudo">
+        <section class="filtros">
+          <div class="cp" style="width:190px">
+            <label for="f-cliente">Cliente</label>
+            <input type="text" id="f-cliente" name="f-cliente" placeholder="Nome do cliente">
+          </div>
+          <div class="cp" style="width:134px">
+            <label for="f-placa">Placa</label>
+            <input type="text" id="f-placa" name="f-placa" placeholder="ABC1D23">
+          </div>
+          <div class="cp" style="width:150px">
+            <label for="f-inicio">Retirada de</label>
+            <input type="date" id="f-inicio" name="f-inicio">
+          </div>
+          <div class="cp" style="width:150px">
+            <label for="f-fim">até</label>
+            <input type="date" id="f-fim" name="f-fim">
+          </div>
+          <div class="cp" style="width:140px">
+            <label for="f-situacao">Situação</label>
+            <select id="f-situacao" name="f-situacao"><option value="">Todas</option><option value="aberto">Em aberto</option><option value="devolvido">Devolvido</option></select>
+          </div>
+          <div class="cp">
+            <div class="acoes-filtro">
+              <button type="button" class="bt cheio" id="bt-filtrar">Filtrar</button>
+              <button type="button" class="bt vazio" id="bt-limpar">Limpar</button>
+            </div>
+          </div>
+        </section>
+        <section class="tabela">
+          <table>
+            <thead>
+              <tr><th>Cliente</th><th>Veículo</th><th>Retirada</th><th>Previsão</th><th>Devolução</th><th class="num">Valor</th><th>Situação</th><th style="width:170px"></th></tr>
+            </thead>
+            <tbody id="corpo">
+              <tr><td colspan="8"><div class="aviso-tabela">Carregando...</div></td></tr>
+            </tbody>
+          </table>
+          <div class="pe"><span id="contagem">Carregando...</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="palco" id="modal-aluguel">
+    <div class="janela">
+      <form id="form-aluguel" autocomplete="off">
+        <div class="cab">
+          <h2 id="titulo-aluguel">Novo aluguel</h2>
+          <button type="button" class="x" data-fechar="#modal-aluguel" aria-label="Fechar">&#10005;</button>
+        </div>
+        <div class="meio">
+          <div class="formulario">
+            <div class="cp">
+              <label for="clienteId">Cliente</label>
+              <select id="clienteId" name="clienteId"><option value="">Selecione</option></select>
+            </div>
+            <div class="cp">
+              <label for="veiculoId">Veículo</label>
+              <select id="veiculoId" name="veiculoId"><option value="">Selecione</option></select>
+            </div>
+            <div class="cp">
+              <label for="dataRetirada">Data de retirada</label>
+              <input type="date" id="dataRetirada" name="dataRetirada">
+            </div>
+            <div class="cp">
+              <label for="dataPrevistaDevolucao">Previsão de devolução</label>
+              <input type="date" id="dataPrevistaDevolucao" name="dataPrevistaDevolucao">
+            </div>
+            <div class="cp">
+              <label for="quilometragemInicial">Quilometragem inicial</label>
+              <input type="number" id="quilometragemInicial" name="quilometragemInicial">
+            </div>
+            <div class="cp">
+              <label for="valorDiaria">Valor da diária (R$)</label>
+              <input type="number" id="valorDiaria" name="valorDiaria" step="0.01">
+            </div>
+            <div class="cp">
+              <label for="dataDevolucao">Data de devolução</label>
+              <input type="date" id="dataDevolucao" name="dataDevolucao">
+            </div>
+            <div class="cp">
+              <label for="quilometragemFinal">Quilometragem final</label>
+              <input type="number" id="quilometragemFinal" name="quilometragemFinal">
+            </div>
+            <div class="cp">
+              <label for="valorTotal">Valor total (R$)</label>
+              <input type="number" id="valorTotal" name="valorTotal" step="0.01">
+            </div>
+            <div class="cp"></div>
+            <div class="todo aviso">Data de devolução, quilometragem final e valor total
+            ficam em branco enquanto o aluguel está em aberto.</div>
+          </div>
+          <div class="aviso erro oculto" id="erro-aluguel" style="margin-top:16px"></div>
+        </div>
+        <div class="pe2">
+          <button type="button" class="bt" data-fechar="#modal-aluguel">Cancelar</button>
+          <button type="submit" class="bt cheio">Salvar aluguel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="palco" id="modal-exclusao">
+    <div class="janela estreita">
+      <div class="cab">
+        <h2 id="titulo-exclusao">Excluir registro</h2>
+        <button type="button" class="x" data-fechar="#modal-exclusao" aria-label="Fechar">&#10005;</button>
+      </div>
+      <div class="meio">
+        <p id="texto-exclusao" style="font-size:14.5px"></p>
+        <p class="leve" style="margin-top:9px">A ação não pode ser desfeita.</p>
+        <div class="aviso erro oculto" id="erro-exclusao"></div>
+      </div>
+      <div class="pe2">
+        <button type="button" class="bt" data-fechar="#modal-exclusao">Cancelar</button>
+        <button type="button" class="bt risco" id="bt-confirmar-exclusao">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/alugueis.js"></script>
+</body>
+</html>

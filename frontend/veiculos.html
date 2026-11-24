@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Veículos — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item sel" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Veículos</h1>
+          <div class="resumo" id="resumo-veiculos">Carregando...</div>
+        </div>
+        <button type="button" class="bt cheio" id="bt-novo">+ Novo veículo</button>
+      </header>
+      <div class="conteudo">
+        <section class="filtros">
+          <div class="cp" style="width:158px">
+            <label for="f-modelo">Modelo</label>
+            <input type="text" id="f-modelo" name="f-modelo" placeholder="Digite o modelo">
+          </div>
+          <div class="cp" style="width:134px">
+            <label for="f-placa">Placa</label>
+            <input type="text" id="f-placa" name="f-placa" placeholder="ABC1D23">
+          </div>
+          <div class="cp" style="width:152px">
+            <label for="f-fabricante">Fabricante</label>
+            <select id="f-fabricante" name="f-fabricante"><option value="">Todos</option></select>
+          </div>
+          <div class="cp" style="width:144px">
+            <label for="f-categoria">Categoria</label>
+            <select id="f-categoria" name="f-categoria"><option value="">Todas</option></select>
+          </div>
+          <div class="cp" style="width:140px">
+            <label for="f-disponivel">Situação</label>
+            <select id="f-disponivel" name="f-disponivel"><option value="">Todas</option><option value="true">Disponível</option><option value="false">Alugado</option></select>
+          </div>
+          <div class="cp" style="width:106px">
+            <label for="f-ano">Ano mínimo</label>
+            <input type="number" id="f-ano" name="f-ano" placeholder="2020">
+          </div>
+          <div class="cp">
+            <div class="acoes-filtro">
+              <button type="button" class="bt cheio" id="bt-filtrar">Filtrar</button>
+              <button type="button" class="bt vazio" id="bt-limpar">Limpar</button>
+            </div>
+          </div>
+        </section>
+        <section class="tabela">
+          <table>
+            <thead>
+              <tr><th>Placa</th><th>Modelo</th><th>Fabricante</th><th>Categoria</th><th class="num">Ano</th><th class="num">Km</th><th>Situação</th><th style="width:170px"></th></tr>
+            </thead>
+            <tbody id="corpo">
+              <tr><td colspan="8"><div class="aviso-tabela">Carregando...</div></td></tr>
+            </tbody>
+          </table>
+          <div class="pe"><span id="contagem">Carregando...</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="palco" id="modal-veiculo">
+    <div class="janela">
+      <form id="form-veiculo" autocomplete="off">
+        <div class="cab">
+          <h2 id="titulo-veiculo">Novo veículo</h2>
+          <button type="button" class="x" data-fechar="#modal-veiculo" aria-label="Fechar">&#10005;</button>
+        </div>
+        <div class="meio">
+          <div class="formulario">
+            <div class="cp">
+              <label for="modelo">Modelo</label>
+              <input type="text" id="modelo" name="modelo">
+            </div>
+            <div class="cp">
+              <label for="placa">Placa</label>
+              <input type="text" id="placa" name="placa" placeholder="ABC1D23">
+            </div>
+            <div class="cp">
+              <label for="fabricanteId">Fabricante</label>
+              <select id="fabricanteId" name="fabricanteId"><option value="">Selecione</option></select>
+            </div>
+            <div class="cp">
+              <label for="categoriaId">Categoria</label>
+              <select id="categoriaId" name="categoriaId"><option value="">Selecione</option></select>
+            </div>
+            <div class="cp">
+              <label for="anoFabricacao">Ano de fabricação</label>
+              <input type="number" id="anoFabricacao" name="anoFabricacao">
+            </div>
+            <div class="cp">
+              <label for="quilometragem">Quilometragem</label>
+              <input type="number" id="quilometragem" name="quilometragem">
+            </div>
+            <div class="cp">
+              <label for="disponivel">Disponibilidade</label>
+              <select id="disponivel" name="disponivel"><option value="true">Disponível</option><option value="false">Alugado</option></select>
+            </div>
+            <div class="cp"></div>
+            <div class="todo aviso">A placa é única no cadastro. O ano de fabricação deve estar
+            entre 1950 e 2100. Fabricante e categoria vêm dos cadastros.</div>
+          </div>
+          <div class="aviso erro oculto" id="erro-veiculo" style="margin-top:16px"></div>
+        </div>
+        <div class="pe2">
+          <button type="button" class="bt" data-fechar="#modal-veiculo">Cancelar</button>
+          <button type="submit" class="bt cheio">Salvar veículo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="palco" id="modal-exclusao">
+    <div class="janela estreita">
+      <div class="cab">
+        <h2 id="titulo-exclusao">Excluir registro</h2>
+        <button type="button" class="x" data-fechar="#modal-exclusao" aria-label="Fechar">&#10005;</button>
+      </div>
+      <div class="meio">
+        <p id="texto-exclusao" style="font-size:14.5px"></p>
+        <p class="leve" style="margin-top:9px">A ação não pode ser desfeita.</p>
+        <div class="aviso erro oculto" id="erro-exclusao"></div>
+      </div>
+      <div class="pe2">
+        <button type="button" class="bt" data-fechar="#modal-exclusao">Cancelar</button>
+        <button type="button" class="bt risco" id="bt-confirmar-exclusao">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/veiculos.js"></script>
+</body>
+</html>

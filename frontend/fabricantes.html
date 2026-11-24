@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Fabricantes — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item sel" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Fabricantes</h1>
+          <div class="resumo" id="resumo-fabricantes">Carregando...</div>
+        </div>
+        <button type="button" class="bt cheio" id="bt-novo">+ Novo fabricante</button>
+      </header>
+      <div class="conteudo">
+        <section class="filtros">
+          <div class="cp" style="width:230px">
+            <label for="f-nome">Nome</label>
+            <input type="text" id="f-nome" name="f-nome" placeholder="Digite o nome">
+          </div>
+          <div class="cp" style="width:200px">
+            <label for="f-pais">País de origem</label>
+            <input type="text" id="f-pais" name="f-pais" placeholder="Digite o país">
+          </div>
+          <div class="cp">
+            <div class="acoes-filtro">
+              <button type="button" class="bt cheio" id="bt-filtrar">Filtrar</button>
+              <button type="button" class="bt vazio" id="bt-limpar">Limpar</button>
+            </div>
+          </div>
+        </section>
+        <section class="tabela">
+          <table>
+            <thead>
+              <tr><th>Nome</th><th>País de origem</th><th style="width:170px"></th></tr>
+            </thead>
+            <tbody id="corpo">
+              <tr><td colspan="3"><div class="aviso-tabela">Carregando...</div></td></tr>
+            </tbody>
+          </table>
+          <div class="pe"><span id="contagem">Carregando...</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="palco" id="modal-fabricante">
+    <div class="janela">
+      <form id="form-fabricante" autocomplete="off">
+        <div class="cab">
+          <h2 id="titulo-fabricante">Novo fabricante</h2>
+          <button type="button" class="x" data-fechar="#modal-fabricante" aria-label="Fechar">&#10005;</button>
+        </div>
+        <div class="meio">
+          <div class="formulario">
+            <div class="cp">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome">
+            </div>
+            <div class="cp">
+              <label for="paisOrigem">País de origem</label>
+              <input type="text" id="paisOrigem" name="paisOrigem">
+            </div>
+            <div class="todo aviso">O nome deve ter entre 2 e 100 caracteres.
+            O país de origem é opcional.</div>
+          </div>
+          <div class="aviso erro oculto" id="erro-fabricante" style="margin-top:16px"></div>
+        </div>
+        <div class="pe2">
+          <button type="button" class="bt" data-fechar="#modal-fabricante">Cancelar</button>
+          <button type="submit" class="bt cheio">Salvar fabricante</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="palco" id="modal-exclusao">
+    <div class="janela estreita">
+      <div class="cab">
+        <h2 id="titulo-exclusao">Excluir registro</h2>
+        <button type="button" class="x" data-fechar="#modal-exclusao" aria-label="Fechar">&#10005;</button>
+      </div>
+      <div class="meio">
+        <p id="texto-exclusao" style="font-size:14.5px"></p>
+        <p class="leve" style="margin-top:9px">A ação não pode ser desfeita.</p>
+        <div class="aviso erro oculto" id="erro-exclusao"></div>
+      </div>
+      <div class="pe2">
+        <button type="button" class="bt" data-fechar="#modal-exclusao">Cancelar</button>
+        <button type="button" class="bt risco" id="bt-confirmar-exclusao">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/fabricantes.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Categorias — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item sel" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Categorias</h1>
+          <div class="resumo" id="resumo-categorias">Carregando...</div>
+        </div>
+        <button type="button" class="bt cheio" id="bt-novo">+ Nova categoria</button>
+      </header>
+      <div class="conteudo">
+        <section class="filtros">
+          <div class="cp" style="width:230px">
+            <label for="f-nome">Nome</label>
+            <input type="text" id="f-nome" name="f-nome" placeholder="Digite o nome">
+          </div>
+          <div class="cp" style="width:160px">
+            <label for="f-valor">Diária até (R$)</label>
+            <input type="number" id="f-valor" name="f-valor" placeholder="300,00" step="0.01">
+          </div>
+          <div class="cp">
+            <div class="acoes-filtro">
+              <button type="button" class="bt cheio" id="bt-filtrar">Filtrar</button>
+              <button type="button" class="bt vazio" id="bt-limpar">Limpar</button>
+            </div>
+          </div>
+        </section>
+        <section class="tabela">
+          <table>
+            <thead>
+              <tr><th>Nome</th><th>Descrição</th><th class="num">Diária base</th><th style="width:170px"></th></tr>
+            </thead>
+            <tbody id="corpo">
+              <tr><td colspan="4"><div class="aviso-tabela">Carregando...</div></td></tr>
+            </tbody>
+          </table>
+          <div class="pe"><span id="contagem">Carregando...</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="palco" id="modal-categoria">
+    <div class="janela">
+      <form id="form-categoria" autocomplete="off">
+        <div class="cab">
+          <h2 id="titulo-categoria">Nova categoria</h2>
+          <button type="button" class="x" data-fechar="#modal-categoria" aria-label="Fechar">&#10005;</button>
+        </div>
+        <div class="meio">
+          <div class="formulario">
+            <div class="cp">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome">
+            </div>
+            <div class="cp">
+              <label for="valorDiariaBase">Valor da diária base (R$)</label>
+              <input type="number" id="valorDiariaBase" name="valorDiariaBase" step="0.01">
+            </div>
+            <div class="cp todo">
+              <label for="descricao">Descrição</label>
+              <input type="text" id="descricao" name="descricao">
+            </div>
+            <div class="todo aviso">O valor da diária base deve ser maior que zero.
+            A descrição é opcional e tem no máximo 200 caracteres.</div>
+          </div>
+          <div class="aviso erro oculto" id="erro-categoria" style="margin-top:16px"></div>
+        </div>
+        <div class="pe2">
+          <button type="button" class="bt" data-fechar="#modal-categoria">Cancelar</button>
+          <button type="submit" class="bt cheio">Salvar categoria</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="palco" id="modal-exclusao">
+    <div class="janela estreita">
+      <div class="cab">
+        <h2 id="titulo-exclusao">Excluir registro</h2>
+        <button type="button" class="x" data-fechar="#modal-exclusao" aria-label="Fechar">&#10005;</button>
+      </div>
+      <div class="meio">
+        <p id="texto-exclusao" style="font-size:14.5px"></p>
+        <p class="leve" style="margin-top:9px">A ação não pode ser desfeita.</p>
+        <div class="aviso erro oculto" id="erro-exclusao"></div>
+      </div>
+      <div class="pe2">
+        <button type="button" class="bt" data-fechar="#modal-exclusao">Cancelar</button>
+        <button type="button" class="bt risco" id="bt-confirmar-exclusao">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/categorias.js"></script>
+</body>
+</html>

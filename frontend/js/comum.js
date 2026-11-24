@@ -41,6 +41,19 @@ function formatarCpf(cpf) {
     return `${digitos.substring(0, 3)}.${digitos.substring(3, 6)}.${digitos.substring(6, 9)}-${digitos.substring(9)}`;
 }
 
+/** Formata telefones com DDD gravados só com números: 31977777777 vira (31) 97777-7777. */
+function formatarTelefone(telefone) {
+    if (!telefone) return '—';
+    const digitos = String(telefone).replace(/\D/g, '');
+    if (digitos.length === 11) {
+        return `(${digitos.substring(0, 2)}) ${digitos.substring(2, 7)}-${digitos.substring(7)}`;
+    }
+    if (digitos.length === 10) {
+        return `(${digitos.substring(0, 2)}) ${digitos.substring(2, 6)}-${digitos.substring(6)}`;
+    }
+    return telefone;
+}
+
 /** Aviso temporário no canto inferior direito. */
 let temporizadorRecado = null;
 

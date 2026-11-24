@@ -32,7 +32,7 @@ function linha(cliente) {
         <td class="forte">${escapar(cliente.nome)}</td>
         <td class="num" style="text-align:left">${escapar(formatarCpf(cliente.cpf))}</td>
         <td>${escapar(cliente.email)}</td>
-        <td class="num" style="text-align:left">${escapar(cliente.telefone || '—')}</td>
+        <td class="num" style="text-align:left">${escapar(formatarTelefone(cliente.telefone))}</td>
         <td>
           <div class="acoes">
             <button type="button" class="bt min" data-editar="${cliente.id}">Editar</button>

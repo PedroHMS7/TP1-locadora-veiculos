@@ -164,3 +164,24 @@ A interface do Swagger fica disponível em `https://localhost:<porta>/swagger`.
 ## Etapa 4 – Vídeo de apresentação
 
 Vídeo demonstrativo do sistema: https://youtu.be/fNpgxGZSSXk
+
+## Trabalho Prático 2 – Front-end
+
+Interface web integrada à API, na pasta [`frontend/`](frontend/), com telas de cadastro,
+edição, exclusão e pesquisa para veículos, clientes, aluguéis, fabricantes e categorias,
+além da execução das cinco consultas com join.
+
+- **Wireframes**: https://pedrohms7.github.io/TP1-locadora-veiculos/wireframes/
+  (arquivos em [`wireframes/`](wireframes/))
+- **Filtros**: as rotas de listagem aceitam parâmetros opcionais na query string, aplicados
+  no banco de dados (ex.: `GET /api/Veiculos?fabricanteId=1&disponivel=true`)
+- **Documentação**: [`documentacao/Documentacao_TP2.pdf`](documentacao/Documentacao_TP2.pdf)
+- **Vídeo**: https://youtu.be/QnHHjJzEYEw
+
+### Executando
+
+```bash
+dotnet run
+```
+
+O sistema abre em `http://localhost:5000` e o Swagger em `http://localhost:5000/swagger`.

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Consultas — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item sel" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Consultas</h1>
+          <div class="resumo" id="resumo-consultas">As cinco consultas da terceira etapa, executadas no banco de dados pela API</div>
+        </div>
+        
+      </header>
+      <div class="conteudo">
+        <section class="consulta" data-rota="veiculos-por-fabricante">
+          <div class="cab">
+            <div>
+              <h2>1. Veículos por fabricante</h2>
+              <div class="desc">Veículos de um fabricante, com o nome do fabricante e o da categoria.</div>
+            </div>
+            <span class="junta ">INNER JOIN</span>
+            <button type="button" class="bt min" data-abrir>Executar</button>
+          </div>
+          <div class="dentro">
+            <div class="parametros">
+              <div class="cp" style="width:200px">
+                <label for="veiculos-por-fabricante-fabricante">Fabricante</label>
+                <input type="text" id="veiculos-por-fabricante-fabricante" data-parametro="fabricante" placeholder="Toyota">
+              </div>
+              <div class="cp">
+                <button type="button" class="bt cheio" data-executar>Executar consulta</button>
+              </div>
+            </div>
+            <div data-resultado></div>
+            <div class="rota" data-endereco></div>
+          </div>
+        </section>
+        <section class="consulta" data-rota="alugueis-por-periodo">
+          <div class="cab">
+            <div>
+              <h2>2. Aluguéis por período</h2>
+              <div class="desc">Aluguéis retirados dentro do intervalo de datas informado, com cliente e veículo.</div>
+            </div>
+            <span class="junta ">INNER JOIN</span>
+            <button type="button" class="bt min" data-abrir>Executar</button>
+          </div>
+          <div class="dentro">
+            <div class="parametros">
+              <div class="cp" style="width:200px">
+                <label for="alugueis-por-periodo-inicio">Início</label>
+                <input type="date" id="alugueis-por-periodo-inicio" data-parametro="inicio">
+              </div>
+              <div class="cp" style="width:200px">
+                <label for="alugueis-por-periodo-fim">Fim</label>
+                <input type="date" id="alugueis-por-periodo-fim" data-parametro="fim">
+              </div>
+              <div class="cp">
+                <button type="button" class="bt cheio" data-executar>Executar consulta</button>
+              </div>
+            </div>
+            <div data-resultado></div>
+            <div class="rota" data-endereco></div>
+          </div>
+        </section>
+        <section class="consulta" data-rota="fabricantes-com-veiculos">
+          <div class="cab">
+            <div>
+              <h2>3. Fabricantes e seus veículos</h2>
+              <div class="desc">Todos os fabricantes, inclusive os que ainda não possuem veículos cadastrados.</div>
+            </div>
+            <span class="junta esq">LEFT JOIN</span>
+            <button type="button" class="bt min" data-abrir>Executar</button>
+          </div>
+          <div class="dentro">
+            <div class="parametros">
+              <div class="cp" style="width:200px">
+                <label for="fabricantes-com-veiculos-pais">País de origem</label>
+                <input type="text" id="fabricantes-com-veiculos-pais" data-parametro="pais" placeholder="Opcional">
+              </div>
+              <div class="cp">
+                <button type="button" class="bt cheio" data-executar>Executar consulta</button>
+              </div>
+            </div>
+            <div data-resultado></div>
+            <div class="rota" data-endereco></div>
+          </div>
+        </section>
+        <section class="consulta" data-rota="clientes-com-alugueis">
+          <div class="cab">
+            <div>
+              <h2>4. Clientes e seus aluguéis</h2>
+              <div class="desc">Todos os clientes, inclusive os que nunca alugaram um veículo.</div>
+            </div>
+            <span class="junta esq">LEFT JOIN</span>
+            <button type="button" class="bt min" data-abrir>Executar</button>
+          </div>
+          <div class="dentro">
+            <div class="parametros">
+              <div class="cp" style="width:200px">
+                <label for="clientes-com-alugueis-nome">Nome do cliente</label>
+                <input type="text" id="clientes-com-alugueis-nome" data-parametro="nome" placeholder="Opcional">
+              </div>
+              <div class="cp">
+                <button type="button" class="bt cheio" data-executar>Executar consulta</button>
+              </div>
+            </div>
+            <div data-resultado></div>
+            <div class="rota" data-endereco></div>
+          </div>
+        </section>
+        <section class="consulta" data-rota="veiculos-disponiveis-por-categoria">
+          <div class="cab">
+            <div>
+              <h2>5. Veículos disponíveis por categoria</h2>
+              <div class="desc">Veículos livres para locação, filtrados por categoria e pelo valor máximo da diária.</div>
+            </div>
+            <span class="junta ">INNER JOIN</span>
+            <button type="button" class="bt min" data-abrir>Executar</button>
+          </div>
+          <div class="dentro">
+            <div class="parametros">
+              <div class="cp" style="width:200px">
+                <label for="veiculos-disponiveis-por-categoria-categoria">Categoria</label>
+                <input type="text" id="veiculos-disponiveis-por-categoria-categoria" data-parametro="categoria" placeholder="Opcional">
+              </div>
+              <div class="cp" style="width:200px">
+                <label for="veiculos-disponiveis-por-categoria-valorMaximoDiaria">Diária até (R$)</label>
+                <input type="number" id="veiculos-disponiveis-por-categoria-valorMaximoDiaria" data-parametro="valorMaximoDiaria" placeholder="Opcional">
+              </div>
+              <div class="cp">
+                <button type="button" class="bt cheio" data-executar>Executar consulta</button>
+              </div>
+            </div>
+            <div data-resultado></div>
+            <div class="rota" data-endereco></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/consultas.js"></script>
+</body>
+</html>

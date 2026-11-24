@@ -10,11 +10,35 @@ function estaAtrasado(aluguel) {
     return previsao < hoje;
 }
 
+/**
+ * Classifica cada veículo uma única vez, para que a soma das três faixas
+ * seja sempre igual ao total da frota. Um aluguel em aberto prevalece sobre
+ * a coluna Disponivel, porque é ele que diz se o carro está fora da locadora.
+ */
+function classificarFrota(veiculos, alugueis) {
+    const abertos = alugueis.filter((a) => !a.dataDevolucao);
+    let disponiveis = 0;
+    let alugados = 0;
+    let atrasados = 0;
+
+    for (const veiculo of veiculos) {
+        const doVeiculo = abertos.filter((a) => a.veiculoId === veiculo.id);
+
+        if (doVeiculo.some(estaAtrasado)) {
+            atrasados++;
+        } else if (doVeiculo.length > 0 || !veiculo.disponivel) {
+            alugados++;
+        } else {
+            disponiveis++;
+        }
+    }
+
+    return { disponiveis, alugados, atrasados };
+}
+
 function desenharFrota(veiculos, alugueis) {
     const total = veiculos.length;
-    const disponiveis = veiculos.filter((v) => v.disponivel).length;
-    const atrasados = alugueis.filter(estaAtrasado).length;
-    const alugados = Math.max(total - disponiveis - atrasados, 0);
+    const { disponiveis, alugados, atrasados } = classificarFrota(veiculos, alugueis);
 
     el('#nota-frota').textContent =
         total === 1 ? '1 veículo cadastrado' : `${total} veículos cadastrados`;

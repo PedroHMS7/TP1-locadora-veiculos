@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1180">
+  <title>Clientes — Locadora de Veículos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="lateral">
+      <div class="logo">
+        <div class="sigla">LV</div>
+        <div class="nome">Locadora<small>Gestão de frota</small></div>
+      </div>
+      <div class="grupo">Operação</div>
+      <a class="item" href="index.html"><span class="pt"></span>Painel</a>
+      <a class="item" href="veiculos.html"><span class="pt"></span>Veículos</a>
+      <a class="item" href="alugueis.html"><span class="pt"></span>Aluguéis</a>
+      <a class="item sel" href="clientes.html"><span class="pt"></span>Clientes</a>
+      <div class="grupo">Cadastros</div>
+      <a class="item" href="fabricantes.html"><span class="pt"></span>Fabricantes</a>
+      <a class="item" href="categorias.html"><span class="pt"></span>Categorias</a>
+      <div class="grupo">Relatórios</div>
+      <a class="item" href="consultas.html"><span class="pt"></span>Consultas</a>
+      <div class="rodape-lat">Pedro Henrique<br>Matrícula 1553422</div>
+    </nav>
+    <main class="area">
+      <header class="topo">
+        <div>
+          <h1>Clientes</h1>
+          <div class="resumo" id="resumo-clientes">Carregando...</div>
+        </div>
+        <button type="button" class="bt cheio" id="bt-novo">+ Novo cliente</button>
+      </header>
+      <div class="conteudo">
+        <section class="filtros">
+          <div class="cp" style="width:230px">
+            <label for="f-nome">Nome</label>
+            <input type="text" id="f-nome" name="f-nome" placeholder="Digite o nome">
+          </div>
+          <div class="cp" style="width:170px">
+            <label for="f-cpf">CPF</label>
+            <input type="text" id="f-cpf" name="f-cpf" placeholder="Somente números">
+          </div>
+          <div class="cp" style="width:230px">
+            <label for="f-email">E-mail</label>
+            <input type="text" id="f-email" name="f-email" placeholder="exemplo@email.com">
+          </div>
+          <div class="cp">
+            <div class="acoes-filtro">
+              <button type="button" class="bt cheio" id="bt-filtrar">Filtrar</button>
+              <button type="button" class="bt vazio" id="bt-limpar">Limpar</button>
+            </div>
+          </div>
+        </section>
+        <section class="tabela">
+          <table>
+            <thead>
+              <tr><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th style="width:170px"></th></tr>
+            </thead>
+            <tbody id="corpo">
+              <tr><td colspan="5"><div class="aviso-tabela">Carregando...</div></td></tr>
+            </tbody>
+          </table>
+          <div class="pe"><span id="contagem">Carregando...</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="palco" id="modal-cliente">
+    <div class="janela">
+      <form id="form-cliente" autocomplete="off">
+        <div class="cab">
+          <h2 id="titulo-cliente">Novo cliente</h2>
+          <button type="button" class="x" data-fechar="#modal-cliente" aria-label="Fechar">&#10005;</button>
+        </div>
+        <div class="meio">
+          <div class="formulario">
+            <div class="cp todo">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome">
+            </div>
+            <div class="cp">
+              <label for="cpf">CPF</label>
+              <input type="text" id="cpf" name="cpf" placeholder="11 dígitos, sem pontuação">
+            </div>
+            <div class="cp">
+              <label for="telefone">Telefone</label>
+              <input type="text" id="telefone" name="telefone" placeholder="(31) 90000-0000">
+            </div>
+            <div class="cp todo">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email">
+            </div>
+            <div class="todo aviso">O CPF deve ter exatamente 11 dígitos numéricos.
+            O e-mail precisa ser válido e o telefone é opcional.</div>
+          </div>
+          <div class="aviso erro oculto" id="erro-cliente" style="margin-top:16px"></div>
+        </div>
+        <div class="pe2">
+          <button type="button" class="bt" data-fechar="#modal-cliente">Cancelar</button>
+          <button type="submit" class="bt cheio">Salvar cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="palco" id="modal-exclusao">
+    <div class="janela estreita">
+      <div class="cab">
+        <h2 id="titulo-exclusao">Excluir registro</h2>
+        <button type="button" class="x" data-fechar="#modal-exclusao" aria-label="Fechar">&#10005;</button>
+      </div>
+      <div class="meio">
+        <p id="texto-exclusao" style="font-size:14.5px"></p>
+        <p class="leve" style="margin-top:9px">A ação não pode ser desfeita.</p>
+        <div class="aviso erro oculto" id="erro-exclusao"></div>
+      </div>
+      <div class="pe2">
+        <button type="button" class="bt" data-fechar="#modal-exclusao">Cancelar</button>
+        <button type="button" class="bt risco" id="bt-confirmar-exclusao">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <div class="recado" id="recado"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/clientes.js"></script>
+</body>
+</html>

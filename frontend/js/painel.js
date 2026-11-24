@@ -50,16 +50,17 @@ function desenharFrota(veiculos, alugueis) {
         return;
     }
 
-    const faixa = (quantidade, cor, rotulo) => {
+    const faixa = (quantidade, cor, singular, plural) => {
         if (quantidade === 0) return '';
         const largura = (quantidade / total) * 100;
+        const rotulo = quantidade === 1 ? singular : plural;
         return `<span style="width:${largura}%;background:${cor}">${quantidade} ${rotulo}</span>`;
     };
 
     el('#barra-frota').innerHTML =
-        faixa(disponiveis, '#2E7D5B', 'disponíveis') +
-        faixa(alugados, '#C08318', 'alugados') +
-        faixa(atrasados, '#B4452F', 'em atraso');
+        faixa(disponiveis, '#2E7D5B', 'disponível', 'disponíveis') +
+        faixa(alugados, '#C08318', 'alugado', 'alugados') +
+        faixa(atrasados, '#B4452F', 'em atraso', 'em atraso');
 
     const item = (cor, quantidade, rotulo) => `
         <div class="leg">

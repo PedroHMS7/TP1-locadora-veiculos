@@ -15,6 +15,8 @@ const ROTULOS = {
     valorDiaria: 'Valor da diária',
     valorTotal: 'Valor total',
     valorDiariaBase: 'Diária base',
+    disponivel: 'Disponível',
+    categoria: 'Categoria',
     cpf: 'CPF',
     email: 'E-mail'
 };
@@ -35,6 +37,8 @@ function formatarCelula(chave, valor) {
     if (chave === 'cpf') return formatarCpf(valor);
     if (chave === 'placa') return `<span class="placa">${escapar(valor)}</span>`;
     if (typeof valor === 'number') {
+        // Ano e identificadores não levam separador de milhar
+        if (chave === 'anoFabricacao' || chave === 'id' || chave.endsWith('Id')) return String(valor);
         return chave.toLowerCase().includes('valor') ? formatarMoeda(valor) : formatarNumero(valor);
     }
     return escapar(valor);
